@@ -1,5 +1,8 @@
 package converter;
 
+import java.util.List;
+import java.util.jar.Attributes;
+
 public class XMLReader extends Reader{
 
     XMLRegExValidator validator = new XMLRegExValidator();
@@ -8,21 +11,42 @@ public class XMLReader extends Reader{
     public Element readNextObject(String objectAsString, Element parent) {
 
         if(validator.isSingleLineElement(objectAsString)) {
-            String name = objectAsString.substring(1, objectAsString.indexOf("/>"));
-            return new Element(name,"null", null,parent);
+            return createNoAttributeElement(objectAsString,parent);
         }
         if(validator.hasClosingElement(objectAsString)){
-            String name = objectAsString.substring(1,objectAsString.indexOf(">")).replace(" ","");
-            String value = objectAsString.substring(validator.getEndOfOpeningElement(objectAsString), validator.getStartOfClosingElement(objectAsString)).replace(" ","");
-            return new Element(name, value, null, parent);
-
+            return createSingleLineElement(objectAsString,parent);
         }
     return null;
     }
 
-    //public Element createSingleLineElement(String objectAsString, Element Parent) {
-        //if(validator.(objectAsString));
-    //}
+    public Element createNoValueElement(String objectAsString, Element parent) {
 
+        return new Element(null,null,null,null);
+
+    }
+
+    public Element createNoAttributeElement(String objectAsString, Element parent) {
+
+        String name = validator.getName(objectAsString);
+        return new Element(name,"null", null,parent);
+    }
+
+    public Element createAttributeElement(String objectAsString, Element parent) {
+        String name = validator.getName(objectAsString);
+        List<Attribute> listOfAttributes = createListOfAttribute(validator.getListOfAttributesNames(objectAsString),validator.getListOfAttributesValues(objectAsString));
+        return new Element(name,validator.getValue(objectAsString), listOfAttributes,parent);
+
+    }
+
+    public Element createSingleLineElement(String objectAsString, Element parent) {
+
+        if(validator.getAmountOAttribute(objectAsString)>0){
+            return createAttributeElement(objectAsString,parent);
+        }
+        else {
+            return createNoAttributeElement(objectAsString,parent);
+        }
+
+    }
 
 }

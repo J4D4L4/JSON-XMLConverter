@@ -7,11 +7,11 @@ public class Element {
 
     public String name;
     public String value;
-    List<String> attributes;
+    List<Attribute> attributes;
     Element parent;
     List<Element> children;
 
-    Element(String name, String value, List<String> attributes, Element parent){
+    Element(String name, String value, List<Attribute> attributes, Element parent){
 
         this.name = name;
         this.value = value;

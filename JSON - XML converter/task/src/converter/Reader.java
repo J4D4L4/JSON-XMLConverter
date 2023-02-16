@@ -16,4 +16,17 @@ public abstract class Reader {
     }
     public abstract Element readNextObject(String objectAsString, Element parent);
 
+    public static List<Attribute> createListOfAttribute(List<String> nameList, List<String> valueList) {
+        List<Attribute> listOfAttributes = new ArrayList<>();
+        if (nameList.size() != valueList.size())
+            return null;
+        for(int listCounter = 0; listCounter < nameList.size(); listCounter++){
+
+            listOfAttributes.add(new Attribute(nameList.get(listCounter),valueList.get(listCounter)));
+
+        }
+
+        return listOfAttributes;
+    }
+
 }
