@@ -1,5 +1,7 @@
 package converter;
 
+import java.util.List;
+
 public class JSONReader extends Reader{
 
     JSONRegExValidator validator = new JSONRegExValidator();
@@ -9,7 +11,8 @@ public class JSONReader extends Reader{
             return createSingleLineElement(objectAsString,parent);
 
         }
-        else return null;
+        else
+            return createElementWithAttributes(objectAsString,parent);
     }
 
 
@@ -23,6 +26,16 @@ public class JSONReader extends Reader{
         }
         else
             return new Element(name, "null", null, parent);
+
+    }
+
+    public Element createElementWithAttributes(String objectAsString, Element parent) {
+
+        List<String> attributeNames = validator.getListOfAttributeNames(objectAsString);
+        List<String> attributeValues = validator.getListOfAttributeValues(objectAsString);
+        List<Attribute> attributes = createListOfAttribute(attributeNames, attributeValues);
+        String name = validator.getName(objectAsString);
+        return new Element(name,validator.getValue(objectAsString),attributes,parent);
 
     }
 

@@ -79,4 +79,47 @@ public class JSONREGEXTests {
     }
 
 
+    @Test
+    public void getListOfAttributeNamesTest(){
+
+        String elementOne= """
+                                  {
+                                  "employee" : {
+                                      "@department" : "manager",
+                                      "#employee" : "Garry Smith"
+                                  }
+                              }""";
+        Assertions.assertEquals("department",validator.getListOfAttributeNames(elementOne).get(0));
+
+    }
+
+    @Test
+    public void getListOfAttributesTest(){
+
+        String elementOne= """
+                                  {
+                                  "employee" : {
+                                      "@department" : "manager",
+                                      "#employee" : "Garry Smith"
+                                  }
+                              }""";
+        Assertions.assertEquals("manager",validator.getListOfAttributeValues(elementOne).get(0));
+
+    }
+
+    @Test
+    public void getValueTest(){
+
+        String elementOne= """
+                                  {
+                                  "employee" : {
+                                      "@department" : "manager",
+                                      "#employee" : "Garry Smith"
+                                  }
+                              }""";
+        Assertions.assertEquals("Garry Smith",validator.getValue(elementOne));
+
+    }
+
+
 }
