@@ -144,7 +144,7 @@ public class JSONRegExValidator extends RegExValidator{
 
     public String getValue(String line){
         String elementAttributeRule = "\"#\\w+\"\\s:\\s(\"(.*)?|null)";
-        String valueRule ="(:\\s\".+|null)";
+        String valueRule ="(:\\s\".+\"|null)";
         Pattern javaPattern = Pattern.compile(elementAttributeRule, Pattern.CASE_INSENSITIVE);
         Matcher matcher = javaPattern.matcher(line);
         matcher.find();

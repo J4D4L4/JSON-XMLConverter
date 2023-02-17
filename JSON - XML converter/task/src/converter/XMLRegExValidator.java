@@ -15,7 +15,7 @@ public class XMLRegExValidator extends RegExValidator{
 
     @Override
     public boolean isSingleLineElement(String line) {
-        String singleLineElementRule = "<(\\w|\\s)+\\/>$";
+        String singleLineElementRule = "\\/>$";
         Pattern javaPattern = Pattern.compile(singleLineElementRule, Pattern.CASE_INSENSITIVE);
         Matcher matcher = javaPattern.matcher(line);
         return (matcher.find());
@@ -122,6 +122,17 @@ public class XMLRegExValidator extends RegExValidator{
         matcher.find();
         return  line.substring(matcher.start()+1, matcher.end()-1);
 
+
+    }
+
+    public boolean hasValue(String line) {
+
+
+
+        String attributeNameRule = ">.*?<";
+        Pattern javaPattern = Pattern.compile(attributeNameRule, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = javaPattern.matcher(line);
+        return  (matcher.find());
 
     }
 

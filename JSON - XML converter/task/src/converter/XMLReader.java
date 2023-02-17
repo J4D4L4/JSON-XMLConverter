@@ -1,5 +1,6 @@
 package converter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.Attributes;
 
@@ -10,8 +11,8 @@ public class XMLReader extends Reader{
 
     public Element readNextObject(String objectAsString, Element parent) {
 
-        if(validator.isSingleLineElement(objectAsString)) {
-            return createNoAttributeElement(objectAsString,parent);
+        if(!validator.hasValue(objectAsString)) {
+            return createNoValueElement(objectAsString,parent);
         }
         if(validator.hasClosingElement(objectAsString)){
             return createSingleLineElement(objectAsString,parent);
@@ -20,15 +21,16 @@ public class XMLReader extends Reader{
     }
 
     public Element createNoValueElement(String objectAsString, Element parent) {
-
-        return new Element(null,null,null,null);
+        String name = validator.getName(objectAsString);
+        List<Attribute> listOfAttributes = createListOfAttribute(validator.getListOfAttributesNames(objectAsString),validator.getListOfAttributesValues(objectAsString));
+        return new Element(name,"null",listOfAttributes,parent);
 
     }
 
     public Element createNoAttributeElement(String objectAsString, Element parent) {
 
         String name = validator.getName(objectAsString);
-        return new Element(name,"null", null,parent);
+        return new Element(name,"null", new ArrayList<Attribute>(),parent);
     }
 
     public Element createAttributeElement(String objectAsString, Element parent) {
